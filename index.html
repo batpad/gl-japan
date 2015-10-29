@@ -85,6 +85,9 @@ $(document).ready(function() {
                             $this.addClass('selected');
                             switchLanguage(code);
                         });
+            if (code === 'en') {
+                $li.addClass('selected');
+            }
             $('#languageButtons').append($li);
         });
     });
