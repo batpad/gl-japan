@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.1/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    #languageButtons {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .language-switch-button {
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        width: 20%;
+        padding: 8px;
+        border-radius: 3px;
+        margin-top: 10px;
+        font-size: 12px;
+        text-align: center;
+        color: #fff;
+        background: #ee8a65;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+
+    .selected {
+        background: #EE6B65 !important;
+    }
+</style>
+<div id='map'></div>
+<ul id="languageButtons">
+<!--     <li onclick='switchLanguage("default");' class='language-switch-button'>Default</li>
+    <li onclick='switchLanguage("en");' class='language-switch-button'>English</li>
+    <li onclick='switchLanguage("ja");' class='language-switch-button'>Japanese</li> -->
+    <!--
+    <li onclick='switchLanguage("de");' class='language-switch-button'>German</li>
+    <li onclick='switchLanguage("es");' class='language-switch-button'>Spanish</li>
+    -->
+</ul>
+<script>
+
+var languages = [
+    ['en', 'English'],
+    ['ja', 'Japanese']
+];
+
+var jsons = {};
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FuamF5YiIsImEiOiJjaWdhczdtYWIxOHFjd25rbzZtamFscjZ2In0.1TNmC4Wx5ZkuJoqX9_drIA';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v8',
+    center: [139.7516, 35.6796],
+    zoom: 12
+});
+
+$(document).ready(function() {
+    languages.forEach(function(lang) {
+        var code = lang[0];
+        var name = lang[1];
+        var jsonPath = 'json/' + code + '.json';
+        $.getJSON(jsonPath, function(data) {
+            jsons[code] = data;
+            var $li = $('<li />')
+                        .text(name)
+                        .addClass('language-switch-button')
+                        .click(function() {
+                            var $this = $(this);
+                            if ($this.hasClass('selected')) {
+                                return;
+                            }
+                            $('.selected').removeClass('selected');
+                            $this.addClass('selected');
+                            switchLanguage(code);
+                        });
+            $('#languageButtons').append($li);
+        });
+    });
+});
+// map.on('load', function() {
+//     switchLanguage('en');
+// });
+function switchLanguage(language) {
+    // Use setLayoutProperty to set the value of a layout property in a style layer.
+    // The three arguments are the id of the layer, the name of the layout property,
+    // and the new property value.
+    var styleJSON = jsons[language];
+    map.setStyle(styleJSON);
+
+}
+</script>
+
+</body>
+</html>
