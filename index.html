@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title></title>
+    <title>Simple Language Switching GL-Map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.1/mapbox-gl.js'></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -25,6 +25,7 @@
         cursor: pointer;
         width: 20%;
         padding: 8px;
+        margin-right: 8px;
         border-radius: 3px;
         margin-top: 10px;
         font-size: 12px;
@@ -92,13 +93,8 @@ $(document).ready(function() {
         });
     });
 });
-// map.on('load', function() {
-//     switchLanguage('en');
-// });
+
 function switchLanguage(language) {
-    // Use setLayoutProperty to set the value of a layout property in a style layer.
-    // The three arguments are the id of the layer, the name of the layout property,
-    // and the new property value.
     var styleJSON = jsons[language];
     map.setStyle(styleJSON);
 
